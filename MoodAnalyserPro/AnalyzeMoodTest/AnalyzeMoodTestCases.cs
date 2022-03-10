@@ -7,6 +7,7 @@ namespace AnalyzeMoodTest
     [TestClass]
     public class AnalyzeMoodTestCases
     {
+        //Method to test Sad Mood
         [TestMethod]
         [TestCategory("Sad Message")]
         public void TestSadMoodInMessage()
@@ -23,12 +24,30 @@ namespace AnalyzeMoodTest
             Assert.AreEqual(expected, actual);
         }
 
+        //Method to test Happy Mood
         [TestMethod]
         [TestCategory("Happy Message")]
         public void TestHappyMoodInMessage()
         {
             //Arrange
             string message = "I am in Any Mood";
+            string expected = "HAPPY";
+            AnalyzeMood analyse = new AnalyzeMood(message);
+
+            //Act
+            string actual = analyse.AnalyseMood();
+
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        //Method to test Happy Mood in null message
+        [TestMethod]
+        [TestCategory("Null Exception")]
+        public void GivenNullMessageReturnHappyMood()
+        {
+            //Arrange
+            string message = null;
             string expected = "HAPPY";
             AnalyzeMood analyse = new AnalyzeMood(message);
 
