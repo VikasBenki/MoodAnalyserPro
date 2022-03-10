@@ -19,9 +19,18 @@ namespace MoodAnalyserPro
         //Method to analyse mood form a given message
         public string AnalyseMood()
         {
+            //Custom Exception Handling
             try
             {
-                if (this.message.ToLower().Contains("sad"))
+                if (this.message.Equals(null))
+                {
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionTypes.NULL_MOOD_EXCEPTION, "Message should not be null");
+                }
+                else if (this.message.Equals(string.Empty))
+                {
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionTypes.EMPTY_MOOD_EXCEPTION, "Message should not be empty");
+                }
+                else if (this.message.ToLower().Contains("sad"))
                 {
                     return "SAD";
                 }
@@ -30,8 +39,13 @@ namespace MoodAnalyserPro
                     return "HAPPY";
                 }
             }
-            catch (NullReferenceException)
+            catch (MoodAnalyserException)
             {
+                return "HAPPY";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
                 return "HAPPY";
             }
         }
