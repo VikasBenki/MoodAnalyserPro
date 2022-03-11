@@ -10,6 +10,11 @@ namespace MoodAnalyserPro
     {
         public string message;
 
+        public AnalyzeMood()
+        {
+            Console.WriteLine("Default Constructor");
+        }
+
         //Constructor for initializing the message
         public AnalyzeMood(string message)
         {
@@ -51,4 +56,5 @@ namespace MoodAnalyserPro
         }
     }
 }
+
 
