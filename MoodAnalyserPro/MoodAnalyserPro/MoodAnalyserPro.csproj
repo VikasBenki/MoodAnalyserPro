@@ -48,7 +48,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\Customer.cs" />
-    <Compile Include="Reflection\MoodAnalyserFactory.cs" />
+    <Compile Include="Reflection\MoodAnalyserReflector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

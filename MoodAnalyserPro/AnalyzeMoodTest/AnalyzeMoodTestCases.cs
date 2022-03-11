@@ -8,11 +8,11 @@ namespace AnalyzeMoodTest
     [TestClass]
     public class AnalyseMoodTestCases
     {
-        MoodAnalyserFactory factory;
+        MoodAnalyserReflector reflector;
         [TestInitialize]
         public void Setup()
         {
-            factory = new MoodAnalyserFactory();
+            reflector = new MoodAnalyserReflector();
         }
 
         //TC 1.1 - Method to test Sad Mood
@@ -98,8 +98,8 @@ namespace AnalyzeMoodTest
             AnalyzeMood expected = new AnalyzeMood();
             object obj = null;
 
-            MoodAnalyserFactory factory = new MoodAnalyserFactory();
-            obj = factory.CreateMoodMoodAnalyse(className, constructorName);
+            MoodAnalyserReflector reflector = new MoodAnalyserReflector();
+            obj = reflector.CreateMoodMoodAnalyse(className, constructorName);
             expected.Equals(obj);
         }
 
@@ -111,8 +111,8 @@ namespace AnalyzeMoodTest
         {
             try
             {
-                MoodAnalyserFactory factory = new MoodAnalyserFactory();
-                object actual = factory.CreateMoodMoodAnalyse(className, constructorName);
+                MoodAnalyserReflector reflector = new MoodAnalyserReflector();
+                object actual = reflector.CreateMoodMoodAnalyse(className, constructorName);
             }
             catch (MoodAnalyserException ex)
             {
@@ -128,8 +128,8 @@ namespace AnalyzeMoodTest
         {
             try
             {
-                MoodAnalyserFactory factory = new MoodAnalyserFactory();
-                object actual = factory.CreateMoodMoodAnalyse(className, constructorName);
+                MoodAnalyserReflector reflector = new MoodAnalyserReflector();
+                object actual = reflector.CreateMoodMoodAnalyse(className, constructorName);
             }
             catch (MoodAnalyserException ex)
             {
@@ -148,7 +148,7 @@ namespace AnalyzeMoodTest
             object obj = null;
             try
             {
-                obj = factory.CreateMoodMoodAnalyserParameterObject("AnalyzeMood", "AnalyzeMood", message);
+                obj = reflector.CreateMoodMoodAnalyserParameterObject("AnalyzeMood", "AnalyzeMood", message);
             }
             catch (MoodAnalyserException actual)
             {
@@ -168,7 +168,7 @@ namespace AnalyzeMoodTest
             object obj = null;
             try
             {
-                obj = factory.CreateMoodMoodAnalyserParameterObject(className, "MoodAnalyzer", message);
+                obj = reflector.CreateMoodMoodAnalyserParameterObject(className, "MoodAnalyzer", message);
 
             }
             catch (MoodAnalyserException actual)
@@ -188,7 +188,7 @@ namespace AnalyzeMoodTest
             object obj = null;
             try
             {
-                obj = factory.CreateMoodMoodAnalyserParameterObject("AnalyzeMood", constructor, message);
+                obj = reflector.CreateMoodMoodAnalyserParameterObject("AnalyzeMood", constructor, message);
 
             }
             catch (MoodAnalyserException actual)
@@ -205,7 +205,27 @@ namespace AnalyzeMoodTest
         {
             try
             {
-                string actual = factory.InvokeAnalyzeMood("happy", "AnalyseMood");
+                string actual = reflector.InvokeAnalyzeMood("happy", "AnalyseMood");
+            }
+            catch (MoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
+        //UC 7.1, 7.2, 7.3 Method to set field value and invoke method to return Happy and throw exception if invalid field
+        [TestCategory("Reflection")]
+        [TestMethod]
+        [DataRow("happy", "happy", "message")]
+        [DataRow("I am sad", "I am sad", "message")]
+        [DataRow("happy", "Field not found", "Chat")]
+        [DataRow("sad", "Field not found", "Chats")]
+        [DataRow(null, "Message should not be null", "message")]
+        public void ReflectionReturnSetValueAndInvaidField(string value, string expected, string fieldName)
+        {
+            try
+            {
+                string actual = reflector.SetField(value, fieldName);
+                Assert.AreEqual(expected, actual);
             }
             catch (MoodAnalyserException ex)
             {

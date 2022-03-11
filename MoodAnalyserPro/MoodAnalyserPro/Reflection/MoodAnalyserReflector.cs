@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace MoodAnalyserPro.Reflection
 {
-    public class MoodAnalyserFactory
+    public class MoodAnalyserReflector
     {
         /// <summary>
-        /// Create MoodAnalyserFactory and specify static method to create MoodAnalyser Object
+        /// Create MoodAnalyserreflector and specify static method to create MoodAnalyser Object
         /// </summary>
         /// <param name="className"></param>
         /// <param name="constructorName"></param>
@@ -71,7 +71,7 @@ namespace MoodAnalyserPro.Reflection
             {
                 Type type = typeof(AnalyzeMood);
                 MethodInfo methodInfo = type.GetMethod(methodName);
-                MoodAnalyserFactory reflector = new MoodAnalyserFactory();
+                MoodAnalyserReflector reflector = new MoodAnalyserReflector();
                 object moodAnalyserObject = reflector.CreateMoodMoodAnalyserParameterObject("MoodAnalyserPro.AnalyzeMood", "AnalyzeMood", message);
                 object info = methodInfo.Invoke(moodAnalyserObject, null);
                 return info.ToString();
@@ -80,6 +80,27 @@ namespace MoodAnalyserPro.Reflection
             {
 
                 throw new MoodAnalyserException(MoodAnalyserException.ExceptionTypes.NO_SUCH_METHOD, "Method not found");
+            }
+        }
+        //UC7 - Method to change mood dynamically (Set field value)
+        public string SetField(string message, string fieldName)
+        {
+            try
+            {
+                AnalyzeMood analyse = new AnalyzeMood();
+                Type type = typeof(AnalyzeMood);
+                FieldInfo fieldInfo = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);
+                if (message == null)
+                {
+                    throw new MoodAnalyserException(MoodAnalyserException.ExceptionTypes.EMPTY_MESSAGE, "Message should not be null");
+                }
+                fieldInfo.SetValue(analyse, message);
+                return analyse.message;
+            }
+            catch (NullReferenceException)
+            {
+
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionTypes.NO_SUCH_FIELD, "Field not found");
             }
         }
     }

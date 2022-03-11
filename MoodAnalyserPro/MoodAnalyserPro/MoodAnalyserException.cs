@@ -16,7 +16,9 @@ namespace MoodAnalyserPro
             NULL_MOOD_EXCEPTION,
             EMPTY_MOOD_EXCEPTION,
             NO_SUCH_CLASS,
-            NO_SUCH_METHOD
+            NO_SUCH_METHOD,
+            EMPTY_MESSAGE,
+            NO_SUCH_FIELD
         }
 
         //Constructor to initialize ExceptionTypes
