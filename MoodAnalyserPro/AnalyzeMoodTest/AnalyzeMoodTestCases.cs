@@ -144,7 +144,7 @@ namespace AnalyzeMoodTest
         [DataRow("I am in any mood")]
         public void GivenMessageReturnParameterizedConstructor(string message)
         {
-             AnalyzeMood expected = new AnalyzeMood(message);
+            AnalyzeMood expected = new AnalyzeMood(message);
             object obj = null;
             try
             {
@@ -194,6 +194,22 @@ namespace AnalyzeMoodTest
             catch (MoodAnalyserException actual)
             {
                 Assert.AreEqual(expextedError, actual.Message);
+            }
+        }
+        //UC 6.1,6.2 - Method to invoke analyse mood method to return happy or sad or invalid method
+        [TestCategory("Reflection")]
+        [TestMethod]
+        [DataRow("HAPPY")]
+        [DataRow("Method not found")]
+        public void ReflectionReturnMethod(string expected)
+        {
+            try
+            {
+                string actual = factory.InvokeAnalyzeMood("happy", "AnalyseMood");
+            }
+            catch (MoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
             }
         }
     }
